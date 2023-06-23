@@ -1,18 +1,17 @@
 import express from "express";
+import "dotenv/config";
 
-import userRouter from "./routes/user";
+import { connect } from "./lib/mongoose";
+import authRouter from "./routes/auth";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3001;
+
+connect();
 
 app.use(express.json());
+app.use(authRouter);
 
-app.use("/api/user", userRouter);
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
+app.listen(process.env.PORT || port, () => {
+  console.log("Server running on http://localhost:" + port);
 });
