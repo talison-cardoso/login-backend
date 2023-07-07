@@ -1,18 +1,19 @@
 import { model, Schema } from "mongoose";
+import { User as IUser } from "../entities/User";
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<IUser>({
   name: {
     required: true,
     type: String,
   },
   email: {
-    require: true,
+    required: true,
     type: String,
   },
   password: {
-    require: true,
+    required: true,
     type: String,
   },
 });
 
-export const User = model("User", UserSchema);
+export const User = model<IUser>("User", UserSchema);
