@@ -1,19 +1,14 @@
 import { IUsersRepository } from "../IUserRepository";
 import { User } from "../../entities/User";
-import { User as mongo } from "../../models/User";
+import { User as UserModel } from "../../models/User";
 
 export class MongooseUserRepository implements IUsersRepository {
-  async findByEmail(email: string): Promise<User | null> {
-    const user = await mongo.findOne({ email });
-
-    if (user) {
-      const { name, password } = user;
-      return { name, email, password };
-    }
-    return null;
+  async findByEmail(email: string): Promise<User> {
+    const user = await UserModel.findOne({ email });
+    return user;
   }
 
   async save(user: User): Promise<void> {
-    await mongo.create(user);
+    await UserModel.create(user);
   }
 }

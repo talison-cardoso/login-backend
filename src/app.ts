@@ -2,16 +2,11 @@ import express from "express";
 import "dotenv/config";
 
 import { connect } from "./lib/mongoose";
-import authRouter from "./routes/auth";
+import appRoutes from "./routes";
 
-const app = express();
-const port = 3001;
+export const app = express();
 
 connect();
 
 app.use(express.json());
-app.use(authRouter);
-
-app.listen(process.env.PORT || port, () => {
-  console.log("Server running on http://localhost:" + port);
-});
+app.use(appRoutes);
