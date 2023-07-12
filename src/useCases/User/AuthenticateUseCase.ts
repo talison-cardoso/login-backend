@@ -1,5 +1,4 @@
 import { compare } from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 import { IAuthenticateUserRequestDTO } from "../../dto/IAuthenticateUserRequestDTO";
 import { IUsersRepository } from "../../repository/IUserRepository";
@@ -11,17 +10,15 @@ export class AuthenticateUseCase {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
-      throw new Error("Invalid Credentials.");
+      throw new Error("User not found");
     }
 
     const doesPasswordMatch = await compare(password, user.password);
 
     if (!doesPasswordMatch) {
-      throw new Error("Invalid Credentials");
+      throw new Error("Incorrect password");
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.SECRET);
-
-    return { token };
+    return { id: user.id, name: user.name };
   }
 }
